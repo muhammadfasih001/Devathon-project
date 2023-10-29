@@ -62,7 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Color(0xffFFFFFF)),
+      const SystemUiOverlayStyle(
+        statusBarColor: Color(0xffFFFFFF),
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarDividerColor: Colors.white,
+      ),
     );
     return SafeArea(
       child: WillPopScope(
