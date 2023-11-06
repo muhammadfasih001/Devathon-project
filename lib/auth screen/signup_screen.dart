@@ -4,6 +4,7 @@ import 'package:devhathon/widgets/roundbutton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -13,17 +14,16 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  int _value = 0;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final userNameController = TextEditingController();
-  // final contactController = TextEditingController();
+
   bool _obsecureText = true;
   bool circularLoader = false;
   final _formKey = GlobalKey<FormState>();
 
   final FirebaseAuth auth = FirebaseAuth.instance;
-  // final CollectionReference fireStore =
-  //     FirebaseFirestore.instance.collection("users");
 
   void obsecureText() {
     setState(() {
@@ -120,7 +120,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 const Text(
                   "Username",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.grey,
                     fontSize: 15,
                   ),
                 ),
@@ -361,6 +361,47 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ],
                   ),
+                ),
+                Row(
+                  children: [
+                    Radio(
+                      activeColor: const Color(0xffB28CFF),
+                      value: 1,
+                      groupValue: _value,
+                      onChanged: (value) {
+                        setState(() {
+                          _value = value!;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Patient",
+                      style: GoogleFonts.poppins(),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Radio(
+                      activeColor: const Color(0xffB28CFF),
+                      value: 2,
+                      groupValue: _value,
+                      onChanged: (value) {
+                        setState(() {
+                          _value = value!;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Doctor",
+                      style: GoogleFonts.poppins(),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,

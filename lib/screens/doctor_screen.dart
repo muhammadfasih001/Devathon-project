@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:devhathon/screens/appointment_screen.dart';
 import 'package:devhathon/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
