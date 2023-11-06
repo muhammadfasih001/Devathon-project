@@ -1,12 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devhathon/auth%20screen/login_screen.dart';
+import 'package:devhathon/screens/appointment_screen.dart';
 import 'package:devhathon/screens/doctor_screen.dart';
+import 'package:devhathon/screens/widgets/categories.dart';
 import 'package:devhathon/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -15,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   String? userId;
+  final firestore = FirebaseFirestore.instance.collection("doctor").snapshots();
 
   Future<void> getUserData() async {
     final User? user = auth.currentUser;
@@ -62,274 +67,320 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 300,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Color(0xffB28CFF),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 300,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.center,
+                  //   end: Alignment.topCenter,
+                  //   colors: [
+                  //     Colors.black,
+                  //     Color(0xffB28CFF),
+                  //   ],
+                  // ),
+                  color: Color(0xffB28CFF),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                signOut();
-                              },
-                              icon: const Icon(
-                                Icons.logout,
-                                color: Colors.white,
-                              ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              signOut();
+                            },
+                            icon: const Icon(
+                              Icons.logout,
+                              color: Colors.white,
                             ),
-                            const CircleAvatar(
-                              radius: 25,
-                              backgroundColor:
-                                  Color.fromARGB(255, 162, 118, 250),
-                              backgroundImage:
-                                  AssetImage("assets/images/profile.jpg"),
-                            ),
-                          ],
-                        ),
+                          ),
+                          const CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Color.fromARGB(255, 162, 118, 250),
+                            backgroundImage:
+                                AssetImage("assets/images/profile.jpg"),
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 22),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Welcome Back",
-                              style: TextStyle(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Welcome Back",
+                              style: GoogleFonts.poppins(
                                 fontSize: 23,
                                 color: Colors.white,
-                              ),
+                              )),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Let's find",
+                            style: GoogleFonts.poppins(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
                             ),
-                            SizedBox(
-                              height: 20,
+                          ),
+                          Text(
+                            "your top doctors!",
+                            style: GoogleFonts.poppins(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
                             ),
-                            Text(
-                              "Let's find your top",
-                              style: TextStyle(
-                                fontSize: 35,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Doctor's Inn",
+                            style: GoogleFonts.poppins(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
                             ),
-                            Text(
-                              "doctor!",
-                              style: TextStyle(
-                                fontSize: 35,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              "Doctor's Inn",
-                              style: TextStyle(
-                                fontSize: 40,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Categories",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
                     ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  "Categories",
+                  style: GoogleFonts.poppins(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       InkWell(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const DoctorScreen()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DoctorScreen(),
+                            ),
+                          );
                         },
-                        child: rowCont1("assets/images/Group 24.png", "All"),
+                        child: const Categories(
+                            url: "assets/images/all.png", text: "All"),
                       ),
-                      rowCont1("assets/images/Group 20.png", "Cardialogy"),
-                      rowCont1("assets/images/Group 21.png", "Medicine"),
-                      rowCont1("assets/images/Group 25.png", "General"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const Categories(
+                          url: "assets/images/pediatrician.png",
+                          text: "Pediatrician"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const Categories(
+                          url: "assets/images/heart.png", text: "Cardiology"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const Categories(
+                          url: "assets/images/surgeon.png", text: "Surgeon"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const Categories(
+                          url: "assets/images/medicine.png", text: "Medicine"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const Categories(
+                          url: "assets/images/pathologist.png",
+                          text: "Pathologist"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const Categories(
+                          url: "assets/images/general.png", text: "General"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const Categories(
+                          url: "assets/images/psychiatrist.png",
+                          text: "Psychiatrist"),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(17),
-                  child: cont2("assets/images/d1.png", "Dr. Maria Waston",
-                      "Heart Surgeon, London, England"),
+              ),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: firestore,
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Color(0xffB28CFF),
+                        ),
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      Utils().toastMessage(
+                          "An error occurred: ${snapshot.error.toString()}");
+                    }
+
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot dataIndex = snapshot.data!.docs[index];
+                        String assetImage = dataIndex["image"];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AppointmentScreen(),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(17),
+                            child: Container(
+                              height: 110,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.grey[100]!,
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: const Offset(3, 3),
+                                    color: Colors.grey[300]!,
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: Image.asset(
+                                            assetImage,
+                                            height: 60,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/Star.png",
+                                            ),
+                                            Text(
+                                              dataIndex["rating"],
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                      vertical: 10,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          dataIndex["name"],
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          dataIndex["specialist"],
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[500],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 33,
+                                          width: 110,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "Appointment",
+                                              style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(17),
-                  child: cont2("assets/images/d3.png", "Dr. Maria Waston",
-                      "Heart Surgeon, London, England"),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(17),
-                  child: cont2("assets/images/d4.png", "Dr. Maria Waston",
-                      "Heart Surgeon, London, England"),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(17),
-                  child: cont2("assets/images/d1.png", "Dr. Maria Waston",
-                      "Heart Surgeon, London, England"),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
-}
-
-Widget rowCont1(String url, String text) {
-  return Column(
-    children: [
-      Container(
-        height: 60,
-        width: 60,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade50,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(15),
-          ),
-          border: Border.all(
-            color: Colors.grey.shade300,
-            width: 0.5,
-            style: BorderStyle.solid,
-          ),
-        ),
-        child: Image.asset(url),
-      ),
-      const SizedBox(
-        height: 8,
-      ),
-      Text(
-        text,
-        style: const TextStyle(
-          fontSize: 13,
-          color: Colors.grey,
-        ),
-      ),
-    ],
-  );
-}
-
-Widget cont2(String url, String text1, String txt2) {
-  return InkWell(
-    child: Container(
-      height: 110,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: Colors.white,
-        border: Border.all(
-          color: Colors.grey[100]!,
-          width: 1,
-          style: BorderStyle.solid,
-        ),
-      ),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  url,
-                  height: 60,
-                  width: 60,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Image.asset("assets/images/Star.png"),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 10,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  text1,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Text(
-                  txt2,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[500],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 33,
-                  width: 110,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "Appointment",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
 }
