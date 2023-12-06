@@ -246,6 +246,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     }
+
+                        if (!snapshot.hasData ||
+                        snapshot.data == null ||
+                        snapshot.data!.docs.isEmpty) {
+                     
+                      return const Center(child:  Text("No Data Available",style: TextStyle(fontSize: 30,),),);
+                    }
                     if (snapshot.hasError) {
                       Utils().toastMessage(
                           "An error occurred: ${snapshot.error.toString()}");
